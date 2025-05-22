@@ -13,8 +13,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Job Tracker",
-  description: "A Tracking, Management app to help manage your Job applications.",
+  title: "EZTrack",
+  description: "Easy to use Job tracker.",
 };
 
 export default function RootLayout({
