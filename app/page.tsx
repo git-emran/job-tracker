@@ -1,6 +1,5 @@
 "use client";
-import Image from "next/image";
-import Logo from "../public/logo.png";
+
 import TextPressure from "@/components/ui/TextPressure";
 import { Button } from "@/components/ui/button";
 import { Strong, Text } from "@radix-ui/themes";
@@ -10,10 +9,6 @@ import { Strong, Text } from "@radix-ui/themes";
 export default function Home() {
   return (
     <main>
-      <header className=" flex justify-between flex-row **:max-w-6xl mx-auto px-4 sm:px-8 py-6">
-        <Image src={Logo} alt="Logo" height={30} width={30} />
-  
-      </header>
       <section className="max-w-6xl mx-auto px-4 sm:px-8 h-screen -mt-20 grid lg:grid-cols-[1fr, 400px] items-center ">
         <div className="items-center justify-center text-center gap-4 flex flex-col">
           <TextPressure
