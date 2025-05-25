@@ -5,6 +5,7 @@ import "./globals.css";
 import {
   SignInButton,
   SignUpButton,
+  SignedIn,
   SignedOut,
  
 } from "@clerk/nextjs";
@@ -39,6 +40,9 @@ export default function RootLayout({
         <body
           className={`${geistSans.variable} ${geistMono.variable} antialiased`}
         >
+          <SignedIn>
+            
+          </SignedIn>
           <SignedOut>
             <header className="flex justify-between items-center p-4 gap-4 h-auto">
               <SignInButton />
