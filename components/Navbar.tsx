@@ -1,7 +1,6 @@
-import React from "react";
-import LinksDropdown from "./LinksDropdown";
-import ThemeToggle from "./ThemeToggle";
+import { ModeToggle } from "./ThemeToggle";
 import { UserButton } from "@clerk/nextjs";
+import LinksDropdown from "./LinksDropdown";
 
 function Navbar() {
   return (
@@ -11,7 +10,7 @@ function Navbar() {
         <LinksDropdown />
       </div>
       <div className="flex items-center gap-x-4">
-        <ThemeToggle />
+        <ModeToggle />
         <UserButton />
       </div>
     </nav>
