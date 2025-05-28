@@ -1,4 +1,4 @@
-import { ModeToggle } from "./ThemeToggle";
+import ModeToggle from "./ThemeToggle";
 import { UserButton } from "@clerk/nextjs";
 import LinksDropdown from "./LinksDropdown";
 
