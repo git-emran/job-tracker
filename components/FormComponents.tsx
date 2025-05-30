@@ -1,4 +1,4 @@
-import { Control } from "react-hook-form";
+import { Control, FieldValues, Path } from "react-hook-form";
 import {
   Select,
   SelectContent,
@@ -15,12 +15,16 @@ import {
 } from "@/components/ui/form";
 import { Input } from "./ui/input";
 
-type CustomFormFieldProps = {
-  name: string;
-  control: Control;
+// ---------- CustomFormField ----------
+type CustomFormFieldProps<T extends FieldValues> = {
+  name: Path<T>;
+  control: Control<T>;
 };
 
-export function CustomFormField({ name, control }: CustomFormFieldProps) {
+export function CustomFormField<T extends FieldValues>({
+  name,
+  control,
+}: CustomFormFieldProps<T>) {
   return (
     <FormField
       control={control}
@@ -38,19 +42,20 @@ export function CustomFormField({ name, control }: CustomFormFieldProps) {
   );
 }
 
-type CustomFormSelectProps = {
-  name: string;
-  control: Control;
+// ---------- CustomFormSelect ----------
+type CustomFormSelectProps<T extends FieldValues> = {
+  name: Path<T>;
+  control: Control<T>;
   items: string[];
   labelText?: string;
 };
 
-export function CustomFormSelect({
+export function CustomFormSelect<T extends FieldValues>({
   name,
   control,
   items,
   labelText,
-}: CustomFormSelectProps) {
+}: CustomFormSelectProps<T>) {
   return (
     <FormField
       control={control}
@@ -58,27 +63,23 @@ export function CustomFormSelect({
       render={({ field }) => (
         <FormItem>
           <FormLabel className="capitalize">{labelText || name}</FormLabel>
-          <Select onValueChange={field.onChange} defaultValue={field.value}>
+          <Select onValueChange={field.onChange} value={field.value}>
             <FormControl>
               <SelectTrigger>
                 <SelectValue />
               </SelectTrigger>
             </FormControl>
             <SelectContent>
-              {items.map((item) => {
-                return (
-                  <SelectItem key={item} value={item}>
-                    {item}
-                  </SelectItem>
-                );
-              })}
+              {items.map((item) => (
+                <SelectItem key={item} value={item}>
+                  {item}
+                </SelectItem>
+              ))}
             </SelectContent>
           </Select>
-
           <FormMessage />
         </FormItem>
       )}
     />
   );
 }
-export default CustomFormSelect;
