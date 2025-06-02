@@ -1,6 +1,5 @@
 "use client";
 
-import TextPressure from "@/components/ui/TextPressure";
 import { Button } from "@/components/ui/button";
 import { Strong, Text } from "@radix-ui/themes";
 
@@ -11,11 +10,10 @@ export default function Home() {
     <main>
       <section className="max-w-6xl mx-auto px-4 sm:px-8 h-screen -mt-20 grid lg:grid-cols-[1fr, 400px] items-center ">
         <div className="items-center justify-center text-center gap-4 flex flex-col">
-          <TextPressure
-            text="Track your Job Hunting Progress Easily"
-            textColor="#00000"
-            minFontSize={24}
-          />
+       <Text as="div"
+       className="text-5xl font-bold text-gray-900 dark:text-gray-100">
+        Job Hunting Made Easy
+       </Text>
           <Text as="div">
             Job Hunting can be overwhelming,{" "}
             <Strong className="text-purple-500">EZtrack</Strong> makes it easy.
