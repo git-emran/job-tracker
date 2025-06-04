@@ -1,30 +1,31 @@
+"use server";
 import prisma from "./db";
 import { auth } from "@clerk/nextjs/server";
-import { JobType, CreateAndEditJobType, createAndEditJobSchema } from "./types";
+import { JobType, CreateAndEditJobType } from "./types";
 import { redirect } from "next/navigation";
-import { Prisma } from "@prisma/client";
-import dayjs from "dayjs";
 
-function authenticateAndRedirect(): string {
-  const { userId } = auth();
+async function authenticateAndRedirect(): Promise<string> {
+  const { userId } = await auth();
   if (!userId) redirect("/");
-
   return userId;
 }
 
 export async function createJobAction(
   values: CreateAndEditJobType
 ): Promise<JobType | null> {
-  const userId = authenticateAndRedirect();
   try {
+    const userId = await authenticateAndRedirect();
+
     const job: JobType = await prisma.job.create({
       data: {
         ...values,
-        clerkID: auth().userId || "",
+        clerkId: userId,
       },
     });
+
+    return job;
   } catch (error) {
-    console.log(error);
+    console.error("Create Job Error:", error);
     return null;
   }
 }
@@ -47,46 +48,36 @@ export async function getAllJobsAction({
   page: number;
   totalPages: number;
 }> {
-  const userId = authenticateAndRedirect();
-
   try {
-    let whereClause: Prisma.JobWhereInput = {
+    const userId = await authenticateAndRedirect();
+
+    const whereClause = {
       clerkId: userId,
-    };
-    if (search) {
-      whereClause = {
-        ...whereClause,
+      ...(search && {
         OR: [
-          {
-            position: {
-              contains: search,
-            },
-          },
-          {
-            company: {
-              contains: search,
-            },
-          },
+          { position: { contains: search, mode: "insensitive" } },
+          { company: { contains: search, mode: "insensitive" } },
         ],
-      };
-    }
-    if (jobStatus && jobStatus !== "all") {
-      whereClause = {
-        ...whereClause,
-        status: jobStatus,
-      };
-    }
+      }),
+      ...(jobStatus && jobStatus !== "all" && { status: jobStatus }),
+    };
+
+    console.log("Prisma whereClause:", JSON.stringify(whereClause, null, 2));
+
+    const count = await prisma.job.count({ where: whereClause });
 
     const jobs: JobType[] = await prisma.job.findMany({
       where: whereClause,
-      orderBy: {
-        createdAt: "desc",
-      },
+      orderBy: { createdAt: "desc" },
+      skip: (page - 1) * limit,
+      take: limit,
     });
 
-    return { jobs, count: 0, page: 1, totalPages: 0 };
+    const totalPages = Math.ceil(count / limit);
+
+    return { jobs, count, page, totalPages };
   } catch (error) {
-    console.error(error);
+    console.error("Get All Jobs Error:", error);
     return { jobs: [], count: 0, page: 1, totalPages: 0 };
   }
 }

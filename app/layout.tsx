@@ -34,8 +34,10 @@ export default function RootLayout({
           <SignedIn></SignedIn>
           <SignedOut>
             <header className="flex justify-between items-center p-4 gap-4 h-auto">
-              <SignInButton />
-              <SignUpButton />
+              <div className="flex gap-6">
+                <SignInButton />
+                <SignUpButton />
+              </div>
             </header>
           </SignedOut>
 

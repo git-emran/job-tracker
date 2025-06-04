@@ -38,17 +38,14 @@ function CreateJobForm() {
     mutationFn: (values: CreateAndEditJobType) => createJobAction(values),
     onSuccess: (data) => {
       if (!data) {
-        toast('Something Went Wrong!!',{ description: "there was an error" });
+        toast("Something Went Wrong!!", { description: "there was an error" });
         return;
       }
-      toast('Nicely done',{
+      toast("Nicely done", {
         description: "job created successfully",
-        
-
       });
-      queryClient.invalidateQueries({ queryKey: ["jobs", "stats", "charts"]  });
-      router.push('/jobs')
-      
+      queryClient.invalidateQueries({ queryKey: ["jobs", "stats", "charts"] });
+      router.push("/jobs");
     },
   });
 
@@ -85,7 +82,7 @@ function CreateJobForm() {
           <CustomFormSelect
             name="mode"
             control={form.control}
-            labelText="job mode"
+            labelText="job mode" 
             items={Object.values(JobMode)}
           />
 
