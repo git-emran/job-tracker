@@ -14,7 +14,7 @@ import { Separator } from "./ui/separator";
 import { Button } from "./ui/button";
 import { Badge } from "./ui/badge";
 import JobInfo from "./JobInfo";
-import DeleteJobButton from "./DeleteJobButton";
+import DeleteJobButton from "./DeleteJobBtn";
 
 function JobCard({ job }: { job: JobType }) {
   const date = new Date(job.createdAt).toLocaleDateString();
@@ -25,12 +25,19 @@ function JobCard({ job }: { job: JobType }) {
         <CardDescription>{job.company}</CardDescription>
       </CardHeader>
       <Separator />
-      <CardContent>{/* card info */}</CardContent>
+      <CardContent>
+        < JobInfo icon={<Briefcase/>} text={job.mode}/>
+        <JobInfo icon={<MapPin />} text={job.location} />
+        <JobInfo icon={<CalendarDays />} text={date} />
+        <Badge>
+          <JobInfo icon={<RadioTower className="w-4 h-4" />} text={job.status} />
+        </Badge>
+      </CardContent>
       <CardFooter className="flex gap-4">
         <Button asChild size="sm">
           <Link href={`/jobs/${job.id}`}>edit</Link>
         </Button>
-        <DeleteJobButton />
+        <DeleteJobButton id={job.id} />
       </CardFooter>
     </Card>
   );
