@@ -16,15 +16,13 @@ import { Form } from "@/components/ui/form";
 import { CustomFormField, CustomFormSelect } from "./FormComponents";
 import { useMutation, useQueryClient, useQuery } from "@tanstack/react-query";
 import {
-  createJobAction,
   getSingleJobAction,
   updateJobAction,
 } from "@/utils/actions";
-import { Toaster } from "@/components/ui/sonner";
+import {toast } from "sonner";
 import { useRouter } from "next/navigation";
 function EditJobForm({ jobId }: { jobId: string }) {
   const queryClient = useQueryClient();
-  const { toast } = useToast();
   const router = useRouter();
 
   const { data } = useQuery({
@@ -37,12 +35,12 @@ function EditJobForm({ jobId }: { jobId: string }) {
       updateJobAction(jobId, values),
     onSuccess: (data) => {
       if (!data) {
-        toast.error({
-          description: "there was an error",
-        });
+        toast.error(
+          "there was an error"
+        );
         return;
       }
-      toast({ description: "job updated" });
+      toast("job updated" );
       queryClient.invalidateQueries({ queryKey: ["jobs"] });
       queryClient.invalidateQueries({ queryKey: ["job", jobId] });
       queryClient.invalidateQueries({ queryKey: ["stats"] });
